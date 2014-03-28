@@ -1,13 +1,4 @@
 {
-  "baseurl": "",
-  "build_dir": "_site",
-  "serve_dir": ".serve",
-  "assets_dir": "static",
-  "assets": {
-    "images": "/static/images/",
-    "css": "/static/css/",
-    "js": "/static/js/"
-  },
   "name": "grunt-jekyll-ghpages",
   "description": "The best Grunt plugin ever.",
   "version": "0.1.0",
@@ -31,9 +22,6 @@
   ],
   "engines": {
     "node": ">= 0.8.0"
-  },
-  "scripts": {
-    "test": "grunt test"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
