@@ -24,7 +24,7 @@
     "node": ">= 0.8.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.4",
+    "grunt": "~0.4.1",
     "grunt-contrib-nodeunit": "~0.2.0",
 
     "grunt-contrib-concat": "~0.3.0",
@@ -46,7 +46,7 @@
     "grunt-contrib-clean": "~0.5.0"
   },
   "peerDependencies": {
-    "grunt": "~0.4.4"
+    "grunt": "~0.4.1"
   },
   "keywords": [
     "gruntplugin"
