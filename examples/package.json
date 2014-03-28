@@ -1,0 +1,24 @@
+{
+  "version": "0.1.0",
+  "name": "my-website",
+  "baseurl": "/my-website",
+  "build_dir": "_site",
+  "serve_dir": ".serve",
+  "assets_dir": "static",
+  "assets": {
+    "images": "/static/images/",
+    "css": "/static/css/",
+    "js": "/static/js/"
+  },
+  "permalink": "/:categories/:year/:month-:title/",
+  "exclude": [
+    "README.md",
+    "Gruntfile.js",
+    "package.json",
+    "node_modules"
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-jekyll-ghpages": "~0.1.0"
+  }
+}
