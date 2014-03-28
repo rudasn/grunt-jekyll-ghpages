@@ -13,10 +13,15 @@ module.exports = function(grunt) {
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  grunt.registerTask('jekyll_ghpages', 'The best Grunt plugin ever.', function() {
+  grunt.registerTask('jekyll', 'The best Grunt plugin ever.', function(task) {
     // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options(),
+    var options = this.options({
+        pkg: grunt.file.readJSON('package.json')
+      }),
       pkg = options.pkg;
+
+    task || (task = 'dev');
+    task = 'jekyll_' + task;
 
     var config = {
         useminPrepare: {
@@ -209,10 +214,10 @@ module.exports = function(grunt) {
         }
     };
 
+    grunt.log.writeln(JSON.stringify(config ,null, ''));
     grunt.config(config);
-    // grunt.task.run('bar', 'baz');
+    grunt.task.run(task);
 
-    grunt.log.writeln(JSON.stringify(config ,null, ' '));
   });
 
 
@@ -234,40 +239,40 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('jekyll_ghpages_dev', [
-                     'lint',
-                     'build',
+  grunt.registerTask('jekyll_dev', [
+                     'jekyll_lint',
+                     'jekyll_build',
                      'watch',
   ]);
-  grunt.registerTask('deploy', [
-                     'static',
+  grunt.registerTask('jekyll_deploy', [
+                     'jekyll_static',
                      'gh-pages',
                      'clean:grunt',
                      'clean:tmp',
   ]);
-  grunt.registerTask('serve', [
+  grunt.registerTask('jekyll_serve', [
                      'clean:serve',
-                     'static',
+                     'jekyll_static',
                      'copy:serve',
                      'rename:serve',
                      'clean:grunt',
                      'clean:tmp',
                      'connect:serve',
   ]);
-  grunt.registerTask('build', [
+  grunt.registerTask('jekyll_build', [
                      'convert:config',
                      'shell:jekyllBuild',
   ]);
-  grunt.registerTask('config', [
+  grunt.registerTask('jekyll_config', [
                      'convert:config',
   ]);
-  grunt.registerTask('lint', [
+  grunt.registerTask('jekyll_lint', [
                      'jshint',
                      'csslint',
   ]);
-  grunt.registerTask('static', [
-                     'lint',
-                     'build',
+  grunt.registerTask('jekyll_static', [
+                     'jekyll_lint',
+                     'jekyll_build',
                      'imagemin',
                      'useminPrepare',
                      'concat',
