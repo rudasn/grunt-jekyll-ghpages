@@ -8,281 +8,255 @@
 
 'use strict';
 
-module.exports = function(grunt) {
+function JekyllPages(grunt) {
+  grunt.registerTask('jekyll_ghpages', '', function(task) {
+      task || (task = 'dev');
+      task = 'jekyll_ghpages_' + task;
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+      grunt.task.run(task);
+    });
 
-  grunt.registerTask('jekyll', 'The best Grunt plugin ever.', function(task) {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-        pkg: grunt.file.readJSON('package.json')
-      }),
-      pkg = options.pkg;
-
-    task || (task = 'dev');
-    task = 'jekyll_' + task;
-
-    var config = {
-        useminPrepare: {
-          options: {
-            dest: pkg.build_dir,
-            root: pkg.build_dir,
-            assetsDirs: pkg.assets_dir,
-          },
-          html: pkg.build_dir + '/**/*.html'
-        },
-        /**
-         *  runs concat, uglify and cssmin on resources in referenced files
-         */
-        usemin: {
-          options: {
-            dest: pkg.build_dir,
-            assetsDirs: [
-              pkg.build_dir,
-              pkg.build_dir + '/' + pkg.assets_dir + '/**/*'
-            ],
-            prefix: pkg.baseurl,
-          },
-          html: pkg.build_dir  + '/**/*.html',
-          css: pkg.build_dir + pkg.assets.css + '**.min.css'
-        },
-        imagemin: {
-            options: {cache: false},
-            dynamic: {
-                files: [{
-                    expand: true,
-                    cwd: '.' + pkg.assets.images,
-                    src: ['**/*.{png,jpg,gif}'],
-                    dest: pkg.build_dir + pkg.assets.images
-                }]
-            }
-        },
-        shell: {
-            jekyllServe: {
-                command: "jekyll serve --baseurl ''"
-            },
-            jekyllBuild: {
-                command: "jekyll build"
-            }
-        },
-        convert: {
-            config: {
-                files: [{
-                    src: ['package.json'],
-                    dest: '_config.yml'
-                }]
-            }
-        },
-        watch: {
-            config: {
-                files: [ 'package.json' ],
-                tasks: [
-                  'convert:config',
-                  'shell:jekyllServe',
-                ],
-                options: {
-                    interrupt: true,
-                }
-            },
-            css: {
-                files: [
-                    '.' + pkg.assets.css + '**/*.css',
-                ],
-                tasks: [ 'shell:jekyllServe'],
-                options: {
-                  interrupt: true,
-                },
-            },
-            js: {
-                files: [
-                    'gruntfile.js',
-                    '.' + pkg.assets.js + '**/*.js',
-                ],
-                tasks: [
-                  'jshint',
-                  'shell:jekyllServe',
-                ],
-                options: {
-                  interrupt: true,
-                },
-            },
-            images: {
-                files: [
-                    '.' + pkg.assets.images + '**/*.{png,jpg,gif,jpeg}',
-                ],
-                tasks: ['imagemin', 'shell:jekyllServe'],
-                options: {
-                  interrupt: true,
-                },
-            },
-            jekyll: {
-                files: [
-                    // '_config.yml',
-                    '**/*.markdown',
-                    '**/*.html',
-                    '!' + pkg.build_dir + '/**/*.html',
-                    '!' + pkg.build_dir + '/**/*.markdown',
-                ],
-                tasks: ['shell:jekyllServe',],
-                options: {
-                    interrupt: true,
-                    atBegin: true,
-                }
-            }
-        },
-        connect: {
-          serve: {
-            options: {
-              appName: pkg.name,
-              port: 9001,
-              base: pkg.serve_dir,
-              keepalive: true
-            }
-          }
-        },
-        'gh-pages': {
-          options: {
-            base: pkg.build_dir,
-            tag: pkg.version
-          },
-          src: ['**']
-        },
-        rev: {
-          options: {
-            algorithm: 'md5',
-            length: 8
-          },
-          images: {
-            src: [
-              pkg.build_dir + pkg.assets.images + '**/*.{jpg,png,gif,jpeg}'
-            ]
-          },
-          css: {
-            src: [
-              pkg.build_dir + pkg.assets.css + pkg.name + '.min.css',
-            ],
-          },
-          js: {
-            src: [
-              pkg.build_dir + pkg.assets.js + pkg.name + '.min.js',
-            ]
-          }
-        },
-        htmlmin: {
-          options: {
-            removeComments: true,
-            collapseWhitespace: true,
-            removeEmptyAttributes: true,
-            caseSensitive: true
-          },
-          files: {
-            expand: true,
-            cwd: pkg.build_dir,
-            src: ['**/*.html'],
-            dest: pkg.build_dir
-          }
-        },
-        jshint: {
-          all: [
-            'gruntfile.js',
-            'package.json',
-            '.' + pkg.assets.js + '**/*.js',
-          ]
-        },
-        csslint: {
-          all: [
-            '.' + pkg.assets.css  + '**/*.css',
-          ]
-        },
-        copy: {
-          serve: {
-            src: pkg.build_dir + '/**',
-            dest: '.tmp/',
-          },
-        },
-        rename: {
-          serve: {
-            src: '.tmp/' + pkg.build_dir,
-            dest: pkg.serve_dir + pkg.baseurl
-          },
-        },
-        clean: {
-          serve: pkg.serve_dir,
-          grunt: '.grunt',
-          tmp: '.tmp',
-        }
-    };
-
-    grunt.log.writeln(JSON.stringify(config ,null, ''));
-    grunt.config(config);
-    grunt.task.run(task);
-
-  });
-
-
-  grunt.loadNpmTasks('grunt-rev');
-  grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-usemin');
-  grunt.loadNpmTasks('grunt-rename');
-  grunt.loadNpmTasks('grunt-convert');
-  grunt.loadNpmTasks('grunt-gh-pages');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-imagemin');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-htmlmin');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-csslint');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-
-  grunt.registerTask('jekyll_dev', [
-                     'jekyll_lint',
-                     'jekyll_build',
-                     'watch',
+  grunt.registerTask('jekyll_ghpages_dev', [
+                     'jekyll_ghpages_lint',
+                     'jekyll_ghpages_build',
+                     'watch:jekyll_ghpages_config',
+                     'watch:jekyll_ghpages_images',
+                     'watch:jekyll_ghpages_css',
+                     'watch:jekyll_ghpages_js',
+                     'watch:jekyll_ghpages_jekyll',
   ]);
-  grunt.registerTask('jekyll_deploy', [
-                     'jekyll_static',
-                     'gh-pages',
-                     'clean:grunt',
-                     'clean:tmp',
+  grunt.registerTask('jekyll_ghpages_deploy', [
+                     'jekyll_ghpages_static',
+                     'gh-pages:jekyll_ghpages',
+                     'clean:jekyll_ghpages_grunt',
+                     'clean:jekyll_ghpages_tmp',
   ]);
-  grunt.registerTask('jekyll_serve', [
-                     'clean:serve',
-                     'jekyll_static',
-                     'copy:serve',
-                     'rename:serve',
-                     'clean:grunt',
-                     'clean:tmp',
-                     'connect:serve',
+  grunt.registerTask('jekyll_ghpages_serve', [
+                     'clean:jekyll_ghpages_serve',
+                     'jekyll_ghpages_static',
+                     'copy:jekyll_ghpages_serve',
+                     'rename:jekyll_ghpages_serve',
+                     'clean:jekyll_ghpages_grunt',
+                     'clean:jekyll_ghpages_tmp',
+                     'connect:jekyll_ghpages_serve',
   ]);
-  grunt.registerTask('jekyll_build', [
-                     'convert:config',
-                     'shell:jekyllBuild',
+  grunt.registerTask('jekyll_ghpages_build', [
+                     'convert:jekyll_ghpages_config',
+                     'shell:jekyll_ghpages_build',
   ]);
-  grunt.registerTask('jekyll_config', [
-                     'convert:config',
+  grunt.registerTask('jekyll_ghpages_config', [
+                     'convert:jekyll_ghpages_config',
   ]);
-  grunt.registerTask('jekyll_lint', [
-                     'jshint',
-                     'csslint',
+  grunt.registerTask('jekyll_ghpages_lint', [
+                     'jshint:jekyll_ghpages_all',
+                     'csslint:jekyll_ghpages_all',
   ]);
-  grunt.registerTask('jekyll_static', [
-                     'jekyll_lint',
-                     'jekyll_build',
+  grunt.registerTask('jekyll_ghpages_static', [
+                     'jekyll_ghpages_lint',
+                     'jekyll_ghpages_build',
                      'imagemin',
                      'useminPrepare',
                      'concat',
                      'uglify',
                      'cssmin',
-                     'rev',
+                     'rev:jekyll_ghpages_images',
+                     'rev:jekyll_ghpages_css',
+                     'rev:jekyll_ghpages_js',
                      'usemin',
                      'htmlmin',
-                     'clean:grunt',
-                     'clean:tmp',
+                     'clean:jekyll_ghpages_grunt',
+                     'clean:jekyll_ghpages_tmp',
   ]);
-
 };
+
+JekyllPages.config = {
+  useminPrepare: {
+    options: {
+      dest: '<%= pkg.build_dir %>',
+      root: '<%= pkg.build_dir %>',
+      assetsDirs: '<%= pkg.assets_dir %>',
+    },
+    html: '<%= pkg.build_dir %>/**/*.html'
+  },
+  usemin: {
+    options: {
+      dest: '<%= pkg.build_dir %>',
+      assetsDirs: [
+        '<%= pkg.build_dir %>',
+        '<%= pkg.build_dir %>/<%= pkg.assets_dir %>/**/*'
+      ],
+      prefix: '<%= pkg.baseurl %>',
+    },
+    html: '<%= pkg.build_dir %>/**/*.html',
+    css: '<%= pkg.build_dir %><%= pkg.assets.css %>**.min.css'
+  },
+  imagemin: {
+    options: {cache: false},
+    dynamic: {
+        files: [{
+            expand: true,
+            cwd: '.<%=  pkg.assets.images %>',
+            src: ['**/*.{png,jpg,gif}'],
+            dest: '<%= pkg.build_dir %><%=  pkg.assets.images %>'
+        }]
+    }
+  },
+  shell: {
+      jekyll_ghpages_serve: {
+          command: "jekyll serve --baseurl ''"
+      },
+      jekyll_ghpages_build: {
+          command: "jekyll build"
+      }
+  },
+  convert: {
+      jekyll_ghpages_config: {
+        files: [{
+            src: ['package.json'],
+            dest: '_config.yml'
+        }]
+      }
+  },
+  watch: {
+      jekyll_ghpages_config: {
+          files: [ 'package.json' ],
+          tasks: [
+            'convert:config',
+            'shell:jekyllServe',
+          ],
+          options: {
+              interrupt: true,
+          }
+      },
+      jekyll_ghpages_css: {
+          files: [
+              '.<%=  pkg.assets.css %>**/*.css',
+          ],
+          tasks: [ 'shell:jekyllServe'],
+          options: {
+            interrupt: true,
+          },
+      },
+      jekyll_ghpages_js: {
+          files: [
+              'gruntfile.js',
+              '.<%= pkg.assets.js %>**/*.js',
+          ],
+          tasks: [
+            'jshint',
+            'shell:jekyllServe',
+          ],
+          options: {
+            interrupt: true,
+          },
+      },
+      jekyll_ghpages_images: {
+          files: [
+              '.<%=  pkg.assets.images %>**/*.{png,jpg,gif,jpeg}',
+          ],
+          tasks: ['imagemin', 'shell:jekyllServe'],
+          options: {
+            interrupt: true,
+          },
+      },
+      jekyll_ghpages_jekyll: {
+          files: [
+              // '_config.yml',
+              '**/*.markdown',
+              '**/*.html',
+              '!<%= pkg.build_dir %>/**/*.html',
+              '!<%= pkg.build_dir %>/**/*.markdown',
+          ],
+          tasks: ['shell:jekyllServe',],
+          options: {
+              interrupt: true,
+              atBegin: true,
+          }
+      }
+  },
+  connect: {
+    jekyll_ghpages_serve: {
+      options: {
+        appName: '<%= pkg.name %>',
+        port: 9001,
+        base: '<%= pkg.serve_dir %>',
+        keepalive: true
+      }
+    }
+  },
+  'gh-pages': {
+    jekyll_ghpages: {
+      options: {
+        base: '<%= pkg.build_dir %>',
+        tag: '<%= pkg.version %>'
+      },
+      src: ['**']
+    }
+  },
+  rev: {
+    options: {
+      algorithm: 'md5',
+      length: 8
+    },
+    jekyll_ghpages_images: {
+      src: [
+        '<%= pkg.build_dir %><%= pkg.assets.images %>**/*.{jpg,png,gif,jpeg}'
+      ]
+    },
+    jekyll_ghpages_css: {
+      src: [
+        '<%= pkg.build_dir %><%= pkg.assets.css %><%= pkg.name %>.min.css',
+      ],
+    },
+    jekyll_ghpages_js: {
+      src: [
+        '<%= pkg.build_dir %><%= pkg.assets.js %><%= pkg.name %>.min.js',
+      ]
+    }
+  },
+  htmlmin: {
+    options: {
+      removeComments: true,
+      collapseWhitespace: true,
+      removeEmptyAttributes: true,
+      caseSensitive: true
+    },
+    files: {
+      expand: true,
+      cwd: '<%= pkg.build_dir %>',
+      src: ['**/*.html'],
+      dest: '<%= pkg.build_dir %>'
+    }
+  },
+  jshint: {
+    jekyll_ghpages_all: [
+      'gruntfile.js',
+      'package.json',
+      '.<%=  pkg.assets.js %>**/*.js',
+    ]
+  },
+  csslint: {
+    jekyll_ghpages_all: [
+      '.<%=  pkg.assets.css %>**/*.css',
+    ]
+  },
+  copy: {
+    jekyll_ghpages_serve: {
+      src: '<%= pkg.build_dir %>/**',
+      dest: '.tmp/',
+    },
+  },
+  rename: {
+    jekyll_ghpages_serve: {
+      src: '.tmp/<%= pkg.build_dir %>',
+      dest: '<%= pkg.serve_dir %><%= pkg.baseurl %>'
+    },
+  },
+  clean: {
+    jekyll_ghpages_serve: '<%= pkg.serve_dir %>',
+    jekyll_ghpages_grunt: '.grunt',
+    jekyll_ghpages_tmp: '.tmp',
+  }
+}
+
+module.exports = JekyllPages;
