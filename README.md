@@ -2,9 +2,9 @@
 
 A collection of grunt tasks for simplifying development and deployment of Jekyll-powered sites on GitHub pages.
 
-* [Jekyll](http://jekyllrb.com/) ([Docs](http://jekyllrb.com/docs/home)
-* [GitHub Pages](http://pages.github.com/) ([Docs](https://help.github.com/categories/20/articles)) and [GitHub Pages Docs](http://jekyllrb.com/docs/github-pages/)
-* [Grunt](http://gruntjs.com/) ([Docs](http://gruntjs.com/getting-started)
+* [Jekyll](http://jekyllrb.com/) - [Docs](http://jekyllrb.com/docs/home)
+* [GitHub Pages](http://pages.github.com/) - [Docs](https://help.github.com/categories/20/articles) and [GitHub Pages Docs](http://jekyllrb.com/docs/github-pages/)
+* [Grunt](http://gruntjs.com/) - [Docs](http://gruntjs.com/getting-started)
 
 Follows best practices for **fast development**, **easy maintenance**, and **high performance** websites. Google Page Speed, YSlow, your users, and you will be very happy with the end result.
 

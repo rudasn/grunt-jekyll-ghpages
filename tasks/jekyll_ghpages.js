@@ -8,67 +8,6 @@
 
 'use strict';
 
-function JekyllPages(grunt) {
-  grunt.registerTask('jekyll_ghpages', '', function(task) {
-      task || (task = 'dev');
-      task = 'jekyll_ghpages_' + task;
-
-      grunt.task.run(task);
-    });
-
-  grunt.registerTask('jekyll_ghpages_dev', [
-                     'jekyll_ghpages_lint',
-                     'jekyll_ghpages_build',
-                     'watch:jekyll_ghpages_config',
-                     'watch:jekyll_ghpages_images',
-                     'watch:jekyll_ghpages_css',
-                     'watch:jekyll_ghpages_js',
-                     'watch:jekyll_ghpages_jekyll',
-  ]);
-  grunt.registerTask('jekyll_ghpages_deploy', [
-                     'jekyll_ghpages_static',
-                     'gh-pages:jekyll_ghpages',
-                     'clean:jekyll_ghpages_grunt',
-                     'clean:jekyll_ghpages_tmp',
-  ]);
-  grunt.registerTask('jekyll_ghpages_serve', [
-                     'clean:jekyll_ghpages_serve',
-                     'jekyll_ghpages_static',
-                     'copy:jekyll_ghpages_serve',
-                     'rename:jekyll_ghpages_serve',
-                     'clean:jekyll_ghpages_grunt',
-                     'clean:jekyll_ghpages_tmp',
-                     'connect:jekyll_ghpages_serve',
-  ]);
-  grunt.registerTask('jekyll_ghpages_build', [
-                     'convert:jekyll_ghpages_config',
-                     'shell:jekyll_ghpages_build',
-  ]);
-  grunt.registerTask('jekyll_ghpages_config', [
-                     'convert:jekyll_ghpages_config',
-  ]);
-  grunt.registerTask('jekyll_ghpages_lint', [
-                     'jshint:jekyll_ghpages_all',
-                     'csslint:jekyll_ghpages_all',
-  ]);
-  grunt.registerTask('jekyll_ghpages_static', [
-                     'jekyll_ghpages_lint',
-                     'jekyll_ghpages_build',
-                     'imagemin',
-                     'useminPrepare',
-                     'concat',
-                     'uglify',
-                     'cssmin',
-                     'rev:jekyll_ghpages_images',
-                     'rev:jekyll_ghpages_css',
-                     'rev:jekyll_ghpages_js',
-                     'usemin',
-                     'htmlmin',
-                     'clean:jekyll_ghpages_grunt',
-                     'clean:jekyll_ghpages_tmp',
-  ]);
-};
-
 JekyllPages.config = {
   useminPrepare: {
     options: {
@@ -119,7 +58,9 @@ JekyllPages.config = {
   },
   watch: {
       jekyll_ghpages_config: {
-          files: [ 'package.json' ],
+          files: [
+            'package.json'
+          ],
           tasks: [
             'convert:config',
             'shell:jekyllServe',
@@ -132,7 +73,9 @@ JekyllPages.config = {
           files: [
               '.<%=  pkg.assets.css %>**/*.css',
           ],
-          tasks: [ 'shell:jekyllServe'],
+          tasks: [
+            'shell:jekyllServe'
+          ],
           options: {
             interrupt: true,
           },
@@ -143,7 +86,6 @@ JekyllPages.config = {
               '.<%= pkg.assets.js %>**/*.js',
           ],
           tasks: [
-            'jshint',
             'shell:jekyllServe',
           ],
           options: {
@@ -154,20 +96,24 @@ JekyllPages.config = {
           files: [
               '.<%=  pkg.assets.images %>**/*.{png,jpg,gif,jpeg}',
           ],
-          tasks: ['imagemin', 'shell:jekyllServe'],
+          tasks: [
+            'imagemin',
+            'shell:jekyllServe'
+          ],
           options: {
             interrupt: true,
           },
       },
       jekyll_ghpages_jekyll: {
           files: [
-              // '_config.yml',
               '**/*.markdown',
               '**/*.html',
               '!<%= pkg.build_dir %>/**/*.html',
               '!<%= pkg.build_dir %>/**/*.markdown',
           ],
-          tasks: ['shell:jekyllServe',],
+          tasks: [
+            'shell:jekyllServe',
+          ],
           options: {
               interrupt: true,
               atBegin: true,
@@ -260,3 +206,64 @@ JekyllPages.config = {
 }
 
 module.exports = JekyllPages;
+
+function JekyllPages(grunt) {
+  grunt.registerTask('jekyll_ghpages', '', function(task) {
+      task || (task = 'dev');
+      task = 'jekyll_ghpages_' + task;
+
+      grunt.task.run(task);
+    });
+
+  grunt.registerTask('jekyll_ghpages_dev', [
+                     'jekyll_ghpages_lint',
+                     'jekyll_ghpages_build',
+                     'watch:jekyll_ghpages_config',
+                     'watch:jekyll_ghpages_images',
+                     'watch:jekyll_ghpages_css',
+                     'watch:jekyll_ghpages_js',
+                     'watch:jekyll_ghpages_jekyll',
+  ]);
+  grunt.registerTask('jekyll_ghpages_deploy', [
+                     'jekyll_ghpages_static',
+                     'gh-pages:jekyll_ghpages',
+                     'clean:jekyll_ghpages_grunt',
+                     'clean:jekyll_ghpages_tmp',
+  ]);
+  grunt.registerTask('jekyll_ghpages_serve', [
+                     'clean:jekyll_ghpages_serve',
+                     'jekyll_ghpages_static',
+                     'copy:jekyll_ghpages_serve',
+                     'rename:jekyll_ghpages_serve',
+                     'clean:jekyll_ghpages_grunt',
+                     'clean:jekyll_ghpages_tmp',
+                     'connect:jekyll_ghpages_serve',
+  ]);
+  grunt.registerTask('jekyll_ghpages_build', [
+                     'convert:jekyll_ghpages_config',
+                     'shell:jekyll_ghpages_build',
+  ]);
+  grunt.registerTask('jekyll_ghpages_config', [
+                     'convert:jekyll_ghpages_config',
+  ]);
+  grunt.registerTask('jekyll_ghpages_lint', [
+                     'jshint:jekyll_ghpages_all',
+                     'csslint:jekyll_ghpages_all',
+  ]);
+  grunt.registerTask('jekyll_ghpages_static', [
+                     'jekyll_ghpages_lint',
+                     'jekyll_ghpages_build',
+                     'imagemin',
+                     'useminPrepare',
+                     'concat',
+                     'uglify',
+                     'cssmin',
+                     'rev:jekyll_ghpages_images',
+                     'rev:jekyll_ghpages_css',
+                     'rev:jekyll_ghpages_js',
+                     'usemin',
+                     'htmlmin',
+                     'clean:jekyll_ghpages_grunt',
+                     'clean:jekyll_ghpages_tmp',
+  ]);
+};
