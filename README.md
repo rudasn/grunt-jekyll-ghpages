@@ -18,11 +18,18 @@ Follows best practices for **fast development**, **easy maintenance**, and **hig
 
 
 ## Getting Started
+
+In a nutshell:
+
+1. Update [`Gruntfile.js`](#Gruntfile.js) to use this plugin.
+2. Update [`package.json`](#package.json) with the required [settings](#settings).
+3. Use `package.json` instead of `_config.yml`.
+
 This plugin requires:
 
 * Jekyll
 * node & npm
-* Grunt `~0.4.4`
+* Grunt `~0.4.1`
 * GitHub account
 
 ### Jekyll
