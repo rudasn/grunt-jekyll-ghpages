@@ -18,7 +18,28 @@ Follows best practices for **fast development**, **easy maintenance**, and **hig
 
 
 ## Getting Started
-This plugin requires Grunt `~0.4.4`
+This plugin requires:
+
+* Jekyll
+* node & npm
+* Grunt `~0.4.4`
+* GitHub account
+
+### Jekyll
+
+If you haven't used Jekyll before, be sure to checkout the [Quick-start guide](http://jekyllrb.com/docs/quickstart/) and the [Documents](http://jekyllrb.com/docs/home/).
+
+As you know, Jekyll requires a `_config.yml` file which defines project settings and site variables. **This plugin creates this file for you by converting `package.json` to `_config.yml`.**
+
+### package.json
+
+**`package.json` holds all your project settings, Jekyll config values, and site variables.** See [Settings](#Settings) for settings required by this plugin and the [Jekyll docs on configuration](http://jekyllrb.com/docs/configuration/). 
+
+If you don't have a ```package.json``` file in your root directory go ahead and create one. If you are not familiar with this kind of file, be sure to checkout this [introduction](http://docs.nodejitsu.com/articles/getting-started/npm/what-is-the-file-package-json).
+
+You can see an example under [examples/package.json](https://github.com/rudasn/grunt-jekyll-ghpages/blob/master/examples/package.json).
+
+### Grunt
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -26,7 +47,11 @@ If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out th
 npm install grunt-jekyll-ghpages --save-dev
 ```
 
-Once the plugin has been installed **update your gruntfile** to something like this:
+### Gruntfile.js
+
+This plugin provides a set of tasks based on other grunt plugins so all you have to do is make sure you extend your grunt configuration to include these tasks.
+
+Once the plugin has been installed **update your gruntfile** to something like this.
 
 ```js
 var extend = require('extend'),
@@ -35,12 +60,12 @@ var extend = require('extend'),
 module.exports = function(grunt) {
   grunt.initConfig(extend(jgh.config, {
     pkg: grunt.file.readJSON('package.json'),
-    // ...
+    // your config here
   });
 
-  // Load all available grunt tasks with loadNpmTask
+  // Load all available grunt tasks at once
   // so you don't have to do grunt.loadNpmTask(...)
-  // for each plugin you use
+  // for each plugin you use.
   require('load-grunt-tasks')(grunt);
 
   // Shortcuts to jekyll_ghpages tasks (optional, but recommended)
@@ -50,13 +75,11 @@ module.exports = function(grunt) {
 };
 ```
 
-Update your ```package.json``` properties to include the settings (below).
+You can see and modify these tasks in `node_modules/grunt-jekyll-pages/tasks/jekyll_ghpages.js` line 11.
 
 ## Settings
 
-All settings defined here are required.
-
-Any variables required by Jekyll and/or you need accessible under ```{{ site }}``` define it here.
+Specify these settings in your `package.json` file.
 
 ### version
 
@@ -111,6 +134,8 @@ Default:
 ## Available Tasks
 
 Normally you would only need to use the ```jekyll_ghpages_dev```, ```jekyll_ghpages_serve```, and ```jekyll_ghpages_deploy``` tasks (in that order).
+
+You can also use the shortcut `grunt jekyll_ghpages:[task]` (eg. `grunt jekyll_ghpages:dev` or `grunt jekyll_ghpages:deploy`).
 
 ### jekyll_ghpages_dev
 

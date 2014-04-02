@@ -202,6 +202,7 @@ JekyllPages.config = {
     jekyll_ghpages_serve: '<%= pkg.serve_dir %>',
     jekyll_ghpages_grunt: '.grunt',
     jekyll_ghpages_tmp: '.tmp',
+    jekyll_ghpages_conf: '_config.yml',
   }
 }
 
@@ -229,6 +230,7 @@ function JekyllPages(grunt) {
                      'gh-pages:jekyll_ghpages',
                      'clean:jekyll_ghpages_grunt',
                      'clean:jekyll_ghpages_tmp',
+                     'clean:jekyll_ghpages_conf',
   ]);
   grunt.registerTask('jekyll_ghpages_serve', [
                      'clean:jekyll_ghpages_serve',
@@ -237,6 +239,7 @@ function JekyllPages(grunt) {
                      'rename:jekyll_ghpages_serve',
                      'clean:jekyll_ghpages_grunt',
                      'clean:jekyll_ghpages_tmp',
+                     'clean:jekyll_ghpages_conf',
                      'connect:jekyll_ghpages_serve',
   ]);
   grunt.registerTask('jekyll_ghpages_build', [
