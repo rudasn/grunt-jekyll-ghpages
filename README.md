@@ -33,15 +33,15 @@ As you know, Jekyll requires a `_config.yml` file which defines project settings
 
 ### package.json
 
-**`package.json` holds all your project settings, Jekyll config values, and site variables.** See [Settings](#Settings) for settings required by this plugin and the [Jekyll docs on configuration](http://jekyllrb.com/docs/configuration/). 
+**`package.json` holds all your project settings, Jekyll config values, and site variables.** See [Settings](#settings) for settings required by this plugin and the [Jekyll docs on configuration](http://jekyllrb.com/docs/configuration/). 
 
-If you don't have a ```package.json``` file in your root directory go ahead and create one. If you are not familiar with this kind of file, be sure to checkout this [introduction](http://docs.nodejitsu.com/articles/getting-started/npm/what-is-the-file-package-json).
+If you don't have a `package.json` file in your root directory go ahead and create one. If you are not familiar with this kind of file, be sure to checkout this [introduction](http://docs.nodejitsu.com/articles/getting-started/npm/what-is-the-file-package-json).
 
-You can see an example under [examples/package.json](https://github.com/rudasn/grunt-jekyll-ghpages/blob/master/examples/package.json).
+You can see an example under `[examples/package.json](https://github.com/rudasn/grunt-jekyll-ghpages/blob/master/examples/package.json)`.
 
 ### Grunt
 
-If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may **install this plugin** with this command:
 
 ```shell
 npm install grunt-jekyll-ghpages --save-dev
@@ -60,7 +60,7 @@ var extend = require('extend'),
 module.exports = function(grunt) {
   grunt.initConfig(extend(jgh.config, {
     pkg: grunt.file.readJSON('package.json'),
-    // your config here
+    // your grunt config here
   });
 
   // Load all available grunt tasks at once
@@ -135,7 +135,7 @@ Default:
 
 Normally you would only need to use the ```jekyll_ghpages_dev```, ```jekyll_ghpages_serve```, and ```jekyll_ghpages_deploy``` tasks (in that order).
 
-You can also use the shortcut `grunt jekyll_ghpages:[task]` (eg. `grunt jekyll_ghpages:dev` or `grunt jekyll_ghpages:deploy`).
+You can also call tasks using the format `grunt jekyll_ghpages:[task]` (eg. `grunt jekyll_ghpages:dev` or `grunt jekyll_ghpages:deploy`).
 
 ### jekyll_ghpages_dev
 
@@ -181,8 +181,8 @@ Prepares your static assets for release.
 
 ### Use a Custom Domain
 
-* Specify the ```baseurl``` property to be the domain name of your choice to **//[subdomain.]example.com**. 
-* Specify the domain in the ```CNAME``` file.
+* Specify the `baseurl` property in `package.json` to be the domain name of your choice to **`//[subdomain.]example.com`**. 
+* Specify the domain in the `CNAME` file (eg. `[subdomain.]example.com`).
 
 Update your DNS records following the instructions [provided by Github](https://help.github.com/articles/setting-up-a-custom-domain-with-pages).
 
