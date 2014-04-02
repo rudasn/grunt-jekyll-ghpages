@@ -29,7 +29,9 @@ This plugin requires:
 
 If you haven't used Jekyll before, be sure to checkout the [Quick-start guide](http://jekyllrb.com/docs/quickstart/) and the [Documents](http://jekyllrb.com/docs/home/).
 
-As you know, Jekyll requires a `_config.yml` file which defines project settings and site variables. **This plugin creates this file for you by converting `package.json` to `_config.yml`.**
+As you know, Jekyll requires a `_config.yml` file which defines project settings and site variables.
+
+**This plugin creates and overrides this file by converting `package.json` to `_config.yml`.** If you already have a `_config.yml` file be sure to define these settings in `package.json` before you proceed.
 
 ### package.json
 
@@ -37,7 +39,7 @@ As you know, Jekyll requires a `_config.yml` file which defines project settings
 
 If you don't have a `package.json` file in your root directory go ahead and create one. If you are not familiar with this kind of file, be sure to checkout this [introduction](http://docs.nodejitsu.com/articles/getting-started/npm/what-is-the-file-package-json).
 
-You can see an example under `[examples/package.json](https://github.com/rudasn/grunt-jekyll-ghpages/blob/master/examples/package.json)`.
+You can see an example under [`examples/package.json`](https://github.com/rudasn/grunt-jekyll-ghpages/blob/master/examples/package.json).
 
 ### Grunt
 
