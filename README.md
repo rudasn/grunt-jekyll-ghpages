@@ -21,8 +21,8 @@ Follows best practices for **fast development**, **easy maintenance**, and **hig
 
 In a nutshell:
 
-1. Update [`Gruntfile.js`](#Gruntfile.js) to use this plugin.
-2. Update [`package.json`](#package.json) with the required [settings](#settings).
+1. Update [`Gruntfile.js`](#gruntfilejs) to use this plugin.
+2. Update [`package.json`](#packagejson) with the required [settings](#settings).
 3. Use `package.json` instead of `_config.yml`.
 
 This plugin requires:
